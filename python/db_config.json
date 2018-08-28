@@ -1,0 +1,30 @@
+{
+  "db_warehouse": {
+    "database": "db_warehouse",
+    "user": "root",
+    "password": "root",
+    "host": "192.168.10.169",
+    "port": 3306
+  },
+  "db_glass_state": {
+    "database": "db_glass_state",
+    "user": "root",
+    "password": "root",
+    "host": "192.168.10.169",
+    "port": 3306
+  },
+  "db_warehouse_glass": {
+    "database": "db_warehouse_glass",
+    "user": "root",
+    "password": "root",
+    "host": "192.168.10.169",
+    "port": 3306
+  },
+  "db_warehouse_state_glass": {
+    "database": "db_warehouse_state_glass",
+    "user": "root",
+    "password": "root",
+    "host": "192.168.10.169",
+    "port": 3306
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="KTpl.js"></script>
+</head>
+<body>
+  <script type="text/html" id="html">
+    
+    <a href="[%=a%]">[%=b%]</a>
+    <ul>
+      [% list.forEach(function(k, v){ %]
+        <li>[%= v + 'aaa' %]</li>
+      [% }); %]
+    </ul>
+  </script>
+
+  <script>
+
+    var data = {
+      a: 'aa',
+      b: 'bbb',
+      list:['aaa', 'bbb', 'ccc']
+    }
+
+    var kTpl = new KTpl();
+    document.body.innerHTML = kTpl.convert(document.getElementById('html').innerHTML, data);
+  </script>
+</body>
+</html>
