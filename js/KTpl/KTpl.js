@@ -1,21 +1,31 @@
-var KTpl = function(){}
+var KTpl = function(){
+  this.__LeftTag = '[%';
+  this.__RightTag = '%]';
+  this.__EqualTag = '=';
+}
 
 KTpl.prototype = {
   constructor: KTpl,
 
+  configTag: function(l, r, c){
+    this.__LeftTag = l;
+    this.__RightTag = r;
+    this.__EqualTag = c;
+  },
+
   convert: function(s, d){
     var str = "var s = '';";
 
-    var s_arr = s.split('[%');
+    var s_arr = s.split(this.__LeftTag);
     str += "s += '" + s_arr[0] + "';";
     if(s_arr.length <= 1) return str;
     for(var i = 1; i < s_arr.length; i++){
-      var s_r_arr = s_arr[i].split('%]');
-      if(s_r_arr[0][0] == '='){
+      var s_r_arr = s_arr[i].split(this.__RightTag);
+      if(s_r_arr[0][0] == this.__EqualTag){
         str += "s += " + s_r_arr[0].substring(1) + ";";
       }
       else{
-        str += s_r_arr[0];
+        str += s_r_arr[0] + ";";
       }
 
       str += "s += '" + s_r_arr[1] + "';";
