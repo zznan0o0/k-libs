@@ -1,0 +1,32 @@
+.k-btn{
+  display: inline-block;
+  padding: 5px 10px; margin: 0;
+  border: 1px solid #efefef; border-radius: 5px;
+  background: #fff;
+  font-size: 12px; color: #000;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.k-btn-abnormal{
+  background: #1E9FFF;
+  padding: 6px 11px;
+  border:0;
+  color: #fff;
+}
+
+.k-btn-big{
+  padding: 10px 20px; margin: 0;
+}
+
+.k-btn-square{
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.k-btn-add{
+  font-size: 18px; font-weight: bold;
+}
