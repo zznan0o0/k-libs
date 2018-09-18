@@ -26,7 +26,8 @@
     }
 
     var kTpl = new KTpl();
-    document.body.innerHTML = kTpl.convert(document.getElementById('html').innerHTML, data);
+    kTpl.innert('#html', 'body', data);
+    // document.body.innerHTML = kTpl.convert(document.getElementById('html').innerHTML, data);
   </script>
 </body>
 </html>

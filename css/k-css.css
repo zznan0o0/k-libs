@@ -133,6 +133,12 @@ a:hover {
   line-height: 30px;
 }
 
+.k-input{
+  display: inline-block;
+  padding: 5px 10px; margin: 0;
+  border: 1px solid #efefef;
+}
+
 .k-btn-add{
   font-size: 18px; font-weight: bold;
 }
