@@ -71,8 +71,8 @@ a:hover {
   *zoom: 1
 }
 
-.k-clear:after {
-  content: '.';
+.k-clear:after, .k-row:after, .k-row-col-3:after {
+  content: '';
   clear: both;
   *zoom: 1;
   display: block;
@@ -143,10 +143,96 @@ a:hover {
   font-size: 18px; font-weight: bold;
 }
 
-.k-row{
+.k-break-word{
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.k-v-bottom{
+  vertical-align: bottom;
+}
+
+.k-right{
+  float: right;
+}
+
+.k-table{
+  width: 100%;
+  background-color: #fff;
+  color: #666;
+}
+
+.k-table>thead>tr>td, .k-table>thead>tr>th, .k-table>tbody>tr>td, .k-table>tbody>tr>th {
+  position: relative;
+  padding: 9px 15px;
+  min-height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.k-table>thead>tr>td, .k-table>thead>tr>th, .k-table>tbody>tr>td, .k-table>tbody>tr>th {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e6e6e6;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.k-table>thead>tr>th,.k-table>tbody>tr>th {
+  text-align: left;
+  font-weight: 400;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.k-text-center{
+  text-align: center;
+}
+
+.k-m-top-10{
+  margin-top: 10px;
+}
+
+.k-a4-page{
+  max-width: 594.3pt;
+  margin: 0 auto;
+}
+
+
+.k-row, .k-row-col-3{
   content: '';
   display: block;
   clear: both;
+  *zoom:1;
+  position: relative;
+}
+
+
+.k-row>.k-c-left, .k-row>.k-c-center, .k-row>.k-c-right{
+  float: left;
+  width: 50%;
+}
+
+
+.k-row-col-3>.k-c-left, .k-row-col-3>.k-c-center, .k-row-col-3>.k-c-right{
+  float: left;
+  width: 33.333%;
+}
+
+.k-row>.k-c-right, .k-row-col-3>.k-c-right{
+  float: right;
+  text-align: right;
+}
+
+.k-row>.k-c-center, .k-row-col-3>.k-c-center{
+  text-align: center;
+}
+
+.k-p-bottom{
+  position: absolute;
+  bottom: 0;
 }
 
 .k-col-lg-1,.k-col-lg-10,.k-col-lg-11,.k-col-lg-12,.k-col-lg-2,.k-col-lg-3,.k-col-lg-4,.k-col-lg-5,.k-col-lg-6,.k-col-lg-7,.k-col-lg-8,.k-col-lg-9,.k-col-md-1,.k-col-md-10,.k-col-md-11,.k-col-md-12,.k-col-md-2,.k-col-md-3,.k-col-md-4,.k-col-md-5,.k-col-md-6,.k-col-md-7,.k-col-md-8,.k-col-md-9,.k-col-sm-1,.k-col-sm-10,.k-col-sm-11,.k-col-sm-12,.k-col-sm-2,.k-col-sm-3,.k-col-sm-4,.k-col-sm-5,.k-col-sm-6,.k-col-sm-7,.k-col-sm-8,.k-col-sm-9,.k-col-xs-1,.k-col-xs-10,.k-col-xs-11,.k-col-xs-12,.k-col-xs-2,.k-col-xs-3,.k-col-xs-4,.k-col-xs-5,.k-col-xs-6,.k-col-xs-7,.k-col-xs-8,.k-col-xs-9 {
@@ -574,3 +660,4 @@ a:hover {
     margin-left: 100%
   }
 }
+
