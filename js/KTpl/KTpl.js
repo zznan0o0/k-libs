@@ -15,9 +15,10 @@ KTpl.prototype = {
 
   innert: function(n1, n2,  d){
     var o1 = document.querySelector(n1),
-      o2s = document.querySelectorAll(n2);
+      o2s = document.querySelectorAll(n2),
+      s = this.convert(o1.innerHTML, d);
     o2s.forEach(function(item){
-      item.innerHTML = this.convert(o1.innerHTML, d);
+      item.innerHTML = s;
     }.bind(this));
   },
 

@@ -25,10 +25,16 @@
     <div class="k-container k-bespread" >
       <div class="k-row" style="background: #fff;">
         <div class="k-col-xs-12">
-          <input name="" id="" class="k-mobile-input" />
+          <div class="k-row">
+            <div class="k-col-xs-10 k-input-block">
+              <input type="text" class="k-mobile-input k-input-seach" />
+              <i class="k-iconfont ">&#xe848;</i>
+              <i class="k-iconfont off">&#xe8a1;</i>
+            </div>
+            <div class="k-col-xs-2 k-input-group-label">搜索</div>
+          </div>
         </div>
       </div>
-
       <div class="k-layout-1-overflow-y">
         <ul class="k-list" id="c">
           <li class="k-list-item">
@@ -37,7 +43,7 @@
                 <label for="id1" class="k-checkbox">
                   <input id="id1"  type="checkbox">
                   <div  class="k-checkbox-container">
-                    <i class="icon iconfont">&#xe889;</i>
+                    <i class="k-iconfont">&#xe889;</i>
                   </div>
                 </label>
               </div>
@@ -60,7 +66,7 @@
                   <div class="k-col-xs-4">37元/m²</div>
                   <div class="k-col-xs-4 k-gray k-text-right">
                     <span class="">详情</span>
-                    <i class="icon iconfont ">&#xe859;</i>
+                    <i class="k-iconfont ">&#xe859;</i>
                   </div>
                 </div>
 
@@ -81,5 +87,9 @@
       </div>
     </div>
   </div>
+
+  <script>
+    kui.inputClear();
+  </script>
 </body>
 </html>
