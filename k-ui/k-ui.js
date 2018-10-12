@@ -2,6 +2,7 @@ var KUI = function(){
   this.__LeftTag = '[%';
   this.__RightTag = '%]';
   this.__EqualTag = '=';
+  this.__popup_idx = 0;
 }
 
 KUI.prototype = {
@@ -9,6 +10,12 @@ KUI.prototype = {
 
   query: function(selector){
     return document.querySelectorAll(selector);
+  },
+
+  remove: function(elms){
+    elms.forEach(function(v){
+      v.remove();
+    });
   },
 
   bind: function(elms, event, fn){
@@ -45,6 +52,97 @@ KUI.prototype = {
       item.setAttribute(p, val);
     });
     return elms;
+  },
+
+  addClass: function(elms, classname){
+    elms.forEach(function(v){
+      v.classList.add(classname);
+    });
+  },
+
+  removeClass: function(elms, classname){
+    elms.forEach(function(v){
+      v.classList.remove(classname);
+    });
+  },
+
+  toggleClass: function(elms, classname){
+    elms.forEach(function(v){
+      v.classList.toggle(classname);
+    });
+  },
+
+  createElm: function(s){
+    var div = document.createElement('div');
+    div.innerHTML = s;
+    return div.querySelector('*');
+  },
+
+  alert: function(txt, fn){
+    this.__popup_idx ++;
+    var s = 
+      '<div data-popup="'+this.__popup_idx+'" class="k-curtain k-anim k-anim-fadein">\
+        <div class="k-popup-container">\
+          <div class="k-popup-context">'+txt+'</div>\
+          <div class="k-pop-btn-group">\
+            <div class="k-popup-btn k-popup-btn-red">是</div>\
+          </div>\
+        </div>\
+      </div>';
+    var elm = this.createElm(s);
+    var _this = this;
+    var idx = this.__popup_idx;
+    if(fn){
+      elm.querySelector('.k-popup-btn.k-popup-btn-red').addEventListener('click', fn);
+    }
+    else{
+      elm.querySelector('.k-popup-btn.k-popup-btn-red').addEventListener('click', function(){
+        _this.closePopup(idx);
+      });
+    }
+    document.body.appendChild(elm);
+    return idx; 
+  },
+
+  confirm: function(txt, fn){
+    this.__popup_idx ++;
+    var s = 
+      '<div data-popup="'+this.__popup_idx+'" class="k-curtain k-anim k-anim-fadein">\
+        <div class="k-popup-container">\
+          <div class="k-popup-context">'+txt+'</div>\
+          <div class="k-pop-btn-group">\
+            <div class="k-popup-btn">否</div>\
+            <div class="k-popup-btn k-popup-btn-red">是</div>\
+          </div>\
+        </div>\
+      </div>';
+    var elm = this.createElm(s);
+    var _this = this;
+    var idx = this.__popup_idx;
+    var btn = elm.querySelectorAll('.k-popup-btn');
+    btn[0].addEventListener('click', function(){
+      _this.closePopup(idx);
+    });
+
+    if(fn){
+      btn[1].addEventListener('click', fn);
+    }
+    else{
+      btn[1].addEventListener('click', function(){
+        _this.closePopup(idx);
+      });
+    }
+    document.body.appendChild(elm);
+    return idx; 
+  },
+
+  closePopup: function(index){
+    if(index){
+      this.remove(this.query('[data-popup="'+index+'"]'));
+      return;
+    }
+    
+    this.remove(this.query('[data-popup]'));
   },
 
   ktplConfigTag: function(l, r, c){
