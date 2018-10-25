@@ -245,3 +245,9 @@ func DiffSetArray(a []string, b []string) (r []string){
 
   return r
 }
+
+func UnmarshalJsonString(s string) (r []map[string]interface{}){
+  e := json.Unmarshal([]byte(s), &r)
+  Check(e)
+  return r
+}

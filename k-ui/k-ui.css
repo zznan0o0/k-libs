@@ -113,10 +113,17 @@ a:hover {
   background-color: #b6bece;
   font-size: 16px;
   cursor: pointer;
+  text-align: center;
 }
 
 .k-popup-btn-red{
   background-color: #fc7169 !important;
+}
+
+.k-popup-btn-white{
+  background-color: #fff !important;
+  color: #000;
+  border: 1px solid #d8d8d8;
 }
 
 .k-popup-container{
@@ -298,6 +305,10 @@ a:hover {
   vertical-align: middle;
 }
 
+.k-btn-blue{
+  background: #1E9FFF !important;
+}
+
 .k-btn-radius{
   border-radius: 100px;
 }
@@ -331,6 +342,18 @@ a:hover {
   padding: 8px 10px;
   box-sizing: border-box;
 }
+
+.k-mobile-input-2{
+  padding: 10px 0;
+  height: 30px;
+  width: 100%;
+  font-size: 14px;
+  background: none;
+  border: none;
+  color: #333;
+  border-bottom: 1px solid #D9D9D9;
+}
+
 .k-checkbox{
   display: inline-block;
   cursor: pointer;
@@ -932,6 +955,14 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 }
 
 
+.k-fiter-container{
+  position: absolute;
+  z-index: 10;
+  display: none;
+  top: 0; right: 0; bottom: 0; width: 80%; 
+  background: #fff;
+  overflow-y: auto;
+}
 
 .k-layout-1-overflow-y{
   overflow: hidden;
@@ -1046,7 +1077,6 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 }
 
 .k-anim {
-  display: inline-block
   -webkit-animation-duration: .3s;
   animation-duration: .3s;
   -webkit-animation-fill-mode: both;
@@ -1222,7 +1252,8 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
 @-webkit-keyframes k-fadein {
   0% {
-    opacity: 0
+    opacity: 0;
+    display: inline-block !important;
   }
 
   100% {
@@ -1232,7 +1263,8 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
 @keyframes k-fadein {
   0% {
-    opacity: 0
+    opacity: 0;
+    display: inline-block !important;
   }
 
   100% {
@@ -1252,6 +1284,7 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
   100% {
     opacity: 0
+    display: none !important;
   }
 }
 
@@ -1262,6 +1295,7 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
   100% {
     opacity: 0
+    display: none !important;
   }
 }
 
@@ -1272,28 +1306,28 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
 @keyframes k-fadeout-right{
   0%{ opacity: 1; }
-  100% {opacity: 0; transform: translate(100%,0);}
+  100% {opacity: 0; transform: translate(100%,0); display: none !important;}
 }
 
 .k-anim-fadeout-right {
   animation-name: k-fadeout-right;
-  display: none !important;
+  
 }
 
 @keyframes k-fadeout-left{
   0%{ opacity: 1; }
-  100% {opacity: 0; transform: translate(-100%,0);}
+  100% {opacity: 0; transform: translate(-100%,0); display: none !important;}
 }
 
 .k-anim-fadeout-left {
   animation-name: k-fadeout-left;
-  display: none !important;
+  display: inline-block !important;
 }
 
 
 @keyframes k-fadein-right{
-  0% {opacity: 0; transform: translate(100%,0);}
-  100%{ opacity: 1; transform: translate(0,0);}
+  0% {opacity: 0; transform: translate(100%,0); }
+  100%{ opacity: 1; transform: translate(0,0); }
 }
 
 .k-anim-fadein-right {
@@ -1302,11 +1336,11 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 }
 
 @keyframes k-fadein-left{
-  0% {opacity: 0; transform: translate(-100%,0);}
+  0% {opacity: 0; transform: translate(-100%,0); }
   100%{ opacity: 1; transform: translate(0,0);}
 }
 
 .k-anim-fadein-left {
   animation-name: k-fadein-left;
-  display: inline-block !important;
+  
 }

@@ -3,7 +3,25 @@ var KDate = function(){}
 KDate.prototype = {
   constructor: KDate,
 
-  getCurMonthFirstLastDay: function(){
+  preFixNum: function(num, length){
+    return (Array(length).join('0') + num).slice(-length);
+  },
+
+  format: function(date, str){
+    var date_json = {
+      '%Y': date.getFullYear(),
+      '%m': this.preFixNum(+date.getMonth() + 1, 2),
+      '%d': this.preFixNum(+date.getDate(), 2),
+    }
+
+    for(k in date_json){
+      str = str.replace(k, date_json[k]);
+    }
+
+    return str;
+  },
+
+  getCurMonthFirstLastDay: function(date){
     var date = new Date(),
       y = date.getFullYear(),
       m = date.getMonth();
@@ -18,5 +36,15 @@ KDate.prototype = {
       'first_day': first_day_str,
       'last_day': last_day_str
     }
-  }
+  },
+
+  getTheLastMonth: function(month){
+    var cur_date = new Date();
+    return  the_last_month = new Date(cur_date.getFullYear(), cur_date.getMonth() - month);
+  },
+
+  getTheLastDay: function(day){
+    var cur_date = new Date();
+    return  the_last_month = new Date(cur_date.getFullYear(), cur_date.getMonth(), cur_date.getDate() -  day);
+  },
 }

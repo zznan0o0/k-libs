@@ -256,6 +256,16 @@ KUI.prototype = {
     href.forEach(function(v){v.href = d[v.dataset.href]});
   },
 
+  fadeoutRight: function(selector){
+    this.addClass(this.query(selector), 'k-anim-fadeout-right');
+    this.removeClass(this.query(selector), 'k-anim-fadein-right');
+  },
+
+  fadeinRight: function(selector){
+    this.addClass(this.query(selector), 'k-anim-fadein-right');
+    this.removeClass(this.query(selector), 'k-anim-fadeout-right');
+  },
+
 }
 
 var kui = new KUI();
