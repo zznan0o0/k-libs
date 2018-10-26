@@ -8,11 +8,15 @@ KDate.prototype = {
   },
 
   format: function(date, str){
+    var weekday=["周日","周一","周二","周三","周四","周五","周六"];
+
     var date_json = {
       '%Y': date.getFullYear(),
       '%m': this.preFixNum(+date.getMonth() + 1, 2),
       '%d': this.preFixNum(+date.getDate(), 2),
+      '%w': weekday[date.getDay()],
     }
+
 
     for(k in date_json){
       str = str.replace(k, date_json[k]);

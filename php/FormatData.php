@@ -128,6 +128,13 @@ class FormatData{
     return $d1;
   }
 
+  public function aliasArray($d, $n1, $n2){
+    foreach ($d as $key => &$v) {
+      $v[$n2] = $v[$n1];
+    }
+    return $d;
+  }
+
   public function distrubuteExistProps($d1, $d2, $k1_props, $k2_props, $props){
     $d1 = $this->formatObjToArray($d1);
     $d2 = $this->formatObjToArray($d2);
@@ -142,6 +149,48 @@ class FormatData{
     }
 
     return $d1;
+  }
+
+  public function distrubutePropsByNum($d1, $d2, $k1, $k2, $nn1, $nn2, $pk){
+    $d1 = $this->formatObjToArray($d1);
+    $d2 = $this->formatObjToArray($d2);
+
+    $d1 = $this->aliasArray($d1, $nn1, '__count');
+    $d2_dic = $this->convertDict($d2, $k2);
+    $d3 = [];
+
+    foreach ($d1 as $k => &$v) {
+      $key = $this->convertKey($v, $k1);
+      if(array_key_exists($key, $d2_dic)){
+        foreach ($d2_dic[$key] as $k => &$d2v) {
+          if($d2v[$nn2] > 0){
+            $count = 0;
+            if($v['__count'] > $d2v[$nn2]){
+              $count = $d2v[$nn2];
+              $v['__count'] -= $d2v[$nn2];
+              $d2v[$nn2] = 0;
+            }
+            else{
+              $count = $v['__count'];
+              $d2v[$nn2] -= $v['__count'];
+              $v['__count'] = 0;
+            }
+
+            $vv = $this->formatObjToArray($v);
+            foreach ($pk as $p_k => $p_v) {
+              $vv[$p_v[0]] = $this->isKey($p_v[1], $d2v, $p_v[2]);
+            }
+            $vv[$nn1] = $count;
+            unset($vv['__count']);
+            $d3[] = $vv;
+          }
+
+          if($d2v[$nn2] == 0) unset($d2_dic[$key][$k]);
+        }
+      }
+    }
+
+    return $d3;
   }
 
   public function additionPropArray($d, $p_k, $p, $p_n=null){
@@ -247,14 +296,7 @@ class FormatData{
   }
 
 
-  public function get_dict_value($array_info, $k1, $k2){
-    $dict_array = array();
-    foreach ($array_info as $key => $value) {
-        $dict_array[$value[$k1]] = $value[$k2];
-    }
 
-    return $dict_array;
-  }
 
   public function isEach($d, $fn){
     $istrue = true;
@@ -276,6 +318,7 @@ class FormatData{
     if(strpos($num, '.')){
       list($num,$dec) = explode('.', $num);
       $dec = substr($dec,0, 2);
+      $dec = str_pad($dec, 2, 0, STR_PAD_RIGHT);
       if($mode){
         $retval .= "{$char[$dec['0']]}角{$char[$dec['1']]}分";
       }else{
@@ -318,4 +361,33 @@ class FormatData{
   return $c;
   }
 
+  public function convertArrayToDict($d, $ks){
+    $dic_arr = [];
+    foreach ($d as $key => $v) {
+      $dic = [];
+      foreach ($ks as $i => $k_v) {
+        if($k_v != null){
+          $dic[$k_v] = $v[$i];
+        }
+      }
+
+      $dic_arr[] = $dic;
+    }
+
+    return $dic_arr;
+  }
+
+  public function getPropsArrays($d, $p){
+    $arr = [];
+
+    foreach ($d as $key => $v) {
+      $tmp_arr = [];
+      foreach ($p as $key => $pv) {
+        $tmp_arr[] = $v[$pv];
+      }
+      $arr[] = $tmp_arr;
+    }
+
+    return $arr;
+  }
 }
