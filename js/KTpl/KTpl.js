@@ -25,10 +25,9 @@ KTpl.prototype = {
   convert: function(s, d){
     try{
       var str = "var s = '';";
-      s = s.replace(/\'/g, "\\'");
-      console.log(s)
 
       var s_arr = s.split(this.__LeftTag);
+      s_arr[0] = s_arr[0].replace(/\'/g, "\\'");
       str += "s += '" + s_arr[0] + "';";
       if(s_arr.length <= 1) return str;
       for(var i = 1; i < s_arr.length; i++){
@@ -39,7 +38,7 @@ KTpl.prototype = {
         else{
           str += s_r_arr[0] + ";";
         }
-
+        s_r_arr[1] = s_r_arr[1].replace(/\'/g, "\\'");
         str += "s += '" + s_r_arr[1] + "';";
         str = str.replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n');
       }
