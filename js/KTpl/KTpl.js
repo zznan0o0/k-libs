@@ -25,6 +25,8 @@ KTpl.prototype = {
   convert: function(s, d){
     try{
       var str = "var s = '';";
+      s = s.replace(/\'/g, "\\'");
+      console.log(s)
 
       var s_arr = s.split(this.__LeftTag);
       str += "s += '" + s_arr[0] + "';";

@@ -11,7 +11,7 @@
     <a href="[%=a%]">[%=b%]</a>
     <ul>
       [% list.forEach(function(k, v){ %]
-        <li>[%= v + 'aaa' %]</li>
+        <li>'[%= v + "aaa" %]'</li>
       [% }); %]
       [% console.log(this)%]
     </ul>
