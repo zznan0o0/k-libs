@@ -7,7 +7,7 @@ use App\Libs\ClientRequest;
 class DingtalkApi extends ClientRequest{
 
   public function gettoken(){
-    $output = $this->get('https://oapi.dingtalk.com/gettoken',['corpid' => 'ding1887a471cb42a0bf','corpsecret' => 'EqV1H7Ul97QYSS-C8F0lvKRg_urxF1g3tp7PoyR72xX7uz80XIuu2jJdo8kDO5vD']);
+    $output = $this->get('https://oapi.dingtalk.com/gettoken',['corpid' => '','corpsecret' => '']);
     $output = json_decode($output, true);
     return $output;
   }
