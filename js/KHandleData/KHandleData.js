@@ -7,27 +7,50 @@ KHandleData.prototype = {
 
   // },
   
-  belongDicts: function(d1, d2, ks1, ks2, kn){
+  // matchOneMany: function(d1, d2, ks1, ks2){
+  //   var d1 = this.convertJson(d1);
+  //   var d2 = this.convertJson(d2);
+
+  //   $arr = [];
+  //   this.eachOneMany(d1, d2, ks1, ks2, function(v1, v2){
+  //     v1[kn] = v2;
+  //   });
+  //   return d1;
+  // },
+
+  matchDictDicts: function(d1, d2, ks1, ks2){
     var d1 = this.convertJson(d1);
     var d2 = this.convertJson(d2);
 
-    this.eachOneMany(d1, d2, ks1, ks2, function(v1, v2){
+    $arr = [];
+    this.eachDictDicts(d1, d2, ks1, ks2, function(v1, v2){
       v1[kn] = v2;
     });
     return d1;
   },
 
-  eachOneMany: function(d1, d2, ks1, ks2, fn){
+  belongDicts: function(d1, d2, ks1, ks2, kn){
+    var d1 = this.convertJson(d1);
+    var d2 = this.convertJson(d2);
+
+    d1 = this.eachDictDicts(d1, d2, ks1, ks2, function(v1, v2){
+      v1[kn] = v2;
+    });
+    return this.convertArray(d1);
+  },
+
+  eachDictDicts: function(d1, d2, ks1, ks2, fn){
     var d1 = this.convertDict(d1, ks1);
     var d2 = this.convertDicts(d2, ks2);
 
     this.eachDict(d1, function(v, k){
-      fn(v, this.getVal(d2, k, []), k);
+      fn.call(this, v, this.getVal(d2, k, []), k);
     });
     return d1;
   },
 
   distributeDictsProps: function(d1, d2, ks1, ks2, ps){
+    var d1 = this.convertJson(d1);
     this.eachDictDict(d1, d2, ks1, ks2, function(v1, v2){
       this.each(ps, function(pv){
         v1[pv[0]] = this.getVal(v2, pv[1], pv2);
@@ -41,7 +64,7 @@ KHandleData.prototype = {
     var d2 = this.convertDict(d2, ks2);
 
     this.eachDict(d1, function(v, k){
-      fn(v, this.getVal(d2, k, {}), k);
+      fn.call(this, v, this.getVal(d2, k, {}), k);
     });
     return d1;
   },
@@ -50,7 +73,7 @@ KHandleData.prototype = {
 
   eachDict: function(d, fn){
     for(var k in d){
-      fn(d[k], k);
+      fn.call(this, d[k], k);
     }
     return d;
   },
@@ -95,7 +118,6 @@ KHandleData.prototype = {
   },
 
   convertArray: function(d){
-    var d = this.convertJson(d);
     var vs = [];
     this.eachDict(d, function(v){
       vs.push(v);
@@ -150,7 +172,6 @@ KHandleData.prototype = {
   },
 
   convertDicts: function(d, ks){
-    var d = this.convertJson(d);
     var dicts = {};
 
     this.each(d, function(v){
@@ -167,7 +188,6 @@ KHandleData.prototype = {
   },
 
   convertDict: function(d, ks){
-   var d = this.convertJson(d);
     var dict = {};
 
     this.each(d, function(v){
@@ -179,7 +199,6 @@ KHandleData.prototype = {
   },
 
   convertKey: function(d, ks){
-    var d = this.convertJson(d);
     var key = '';
     this.each(ks, function(v){
       key += d[v];
@@ -190,12 +209,12 @@ KHandleData.prototype = {
 
   each: function(d, fn){
     for(var i = 0; i < d.length; i++){
-      fn(d[i], i);
+      fn.call(this, d[i], i);
     }
     return d;
   },
 
   convertJson: function(d){
-    return JSON.parse(JSON.stringiy(s));
+    return JSON.parse(JSON.stringify(d));
   }
 }
