@@ -18,8 +18,9 @@ KDate.prototype = {
     }
 
 
-    for(k in date_json){
-      str = str.replace(k, date_json[k]);
+    for(var k in date_json){
+      var reg = RegExp(k, 'g');
+      str = str.replace(reg, date_json[k]);
     }
 
     return str;
