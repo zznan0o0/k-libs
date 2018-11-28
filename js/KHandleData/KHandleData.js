@@ -44,7 +44,7 @@ KHandleData.prototype = {
     var d2 = this.convertDicts(d2, ks2);
 
     this.eachDict(d1, function(v, k){
-      fn.call(this, v, this.getVal(d2, k, []), k);
+      fn.call(this, v, this.getVal(d2, k, null), k);
     });
     return d1;
   },
@@ -64,7 +64,7 @@ KHandleData.prototype = {
     var d2 = this.convertDict(d2, ks2);
 
     this.eachDict(d1, function(v, k){
-      fn.call(this, v, this.getVal(d2, k, {}), k);
+      fn.call(this, v, this.getVal(d2, k, null), k);
     });
     return d1;
   },
@@ -141,6 +141,7 @@ KHandleData.prototype = {
 
 
   isKey: function(d, k){
+    if(this.isNull(d)) return false;
     for(var kk in d){
       if (k == kk) return true;
     }
@@ -148,10 +149,18 @@ KHandleData.prototype = {
   },
 
   isVal: function(d, v){
+    if(this.isNull(d)) return false;
     for(var k in d){
       if(v === d[k]) return true;
     }
 
+    return false;
+  },
+
+  isNull: function(d){
+    if(d === null || d === undefined || d === NaN){
+      return true;
+    }
     return false;
   },
 
