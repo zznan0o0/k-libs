@@ -5,14 +5,9 @@ use App\Libs\FormatData;
 
 
 class ClientRequest extends FormatData{
-  private $ApiUserId = '';
-  private $token = '';
-  private $host = 'http://127.0.0.1:9091/';
-  
-
 
   private function urlGo($url){
-    return $this->host.$url;
+    return config('WebConfig.api_ip.go_api').$url;
   }
 
   private function mergeToken($arr){
@@ -39,6 +34,22 @@ class ClientRequest extends FormatData{
       'http' => [
         'method' => 'POST',    
         'header' => 'Content-type:application/x-www-form-urlencoded;charset=utf-8',    
+        'content' => $submit_data,    
+        'timeout' => 15 * 60 
+      ]    
+    ];
+    $context = stream_context_create($options);    
+    $result = file_get_contents($url, false, $context);             
+    return $result;   
+  }
+
+  public function postJson($url, $submit_data){
+    // $submit_data = http_build_query($submit_data);    
+    $submit_data = json_encode($submit_data);
+    $options = [
+      'http' => [
+        'method' => 'POST',    
+        'header' => 'Content-Type:application/json; charset=utf-8',    
         'content' => $submit_data,    
         'timeout' => 15 * 60 
       ]    
@@ -87,4 +98,44 @@ class ClientRequest extends FormatData{
     curl_close($curl);
     return $output;
   }
+
+  public function formdataUpload($url, $param) {
+    $delimiter = uniqid();
+    $post_data = $this->buildData($param, $delimiter);
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "Content-Type: multipart/form-data; boundary=" . $delimiter,
+        "Content-Length: " . strlen($post_data)
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $info = json_decode($response, true);
+  }
+
+  public function buildData($param, $delimiter){
+    $data = '';
+    $eol = "\r\n";
+    $upload = $param['upload'];
+    unset($param['upload']);
+
+    foreach ($param as $name => $content) {
+      $data .= "--" . $delimiter . "\r\n"
+        . 'Content-Disposition: form-data; name="' . $name . "\"\r\n\r\n"
+        . $content . "\r\n";
+    }
+    // 拼接文件流
+    $data .= "--" . $delimiter . $eol
+      . 'Content-Disposition: form-data; name="' . $param['upload_file_name'] . '"; filename="' . $param['filename'] . '"' . "\r\n"
+      . 'Content-Type:application/octet-stream'."\r\n\r\n";
+
+    $data .= $upload . "\r\n";
+    $data .= "--" . $delimiter . "--\r\n";
+    return $data;
+  }
+
+
 }
