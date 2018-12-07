@@ -5,6 +5,11 @@ use App\Libs\FormatData;
 
 
 class ClientRequest extends FormatData{
+  private $ApiUserId = 'U548163';
+  private $token = 'yYkf3y1P7CeRV3i9C89cMXgjpq3aN0Qt';
+  // private $host = 'http://116.62.34.164:9091/';
+  
+
 
   private function urlGo($url){
     return config('WebConfig.api_ip.go_api').$url;
@@ -137,5 +142,21 @@ class ClientRequest extends FormatData{
     return $data;
   }
 
+  public function postXML($url, $xml){
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $res = curl_exec($curl);
+    curl_close($curl);
+    return $res;
+  }
+
+  public function parseXML($xml){
+    libxml_disable_entity_loader(true);
+    return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+  }
 
 }
