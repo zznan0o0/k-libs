@@ -11,8 +11,12 @@
     var arr1 = [{a:1, b:3}, {a:2, b:4}];
 
     // var arr2 = kHandleData.belongDicts(arr, arr1, ['a'], ['a'], 'c');
-    var arr2 = kHandleData.eachDictDict(arr, arr1, ['a'], ['a'], function(){
+    var arr2 = kHandleData.mapDictDict(arr, arr1, ['a'], ['a'], function(a,b,c){
+      a['c'] = b;
+      return a
     });
+    console.log(arr2);
+
   </script>
 </head>
 <body>
