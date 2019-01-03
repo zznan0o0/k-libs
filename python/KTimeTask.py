@@ -1,4 +1,5 @@
 import datetime, time
+import threading
 
 class KTimeTask:
   def __init__(self):
@@ -16,10 +17,14 @@ class KTimeTask:
         for fn_v in v:
           fn_v()
       
-  def run(self):
+  def run(self, dtime):
+    self.runDay(dtime)
+  
+  def start(self):
     while True:
       dtime = datetime.datetime.now()
-      self.runDay(dtime)
+      t = threading.Thread(target=self.run, args=(dtime, ))
+      t.start()
       time.sleep(1)
 
 if __name__ == '__main__':
@@ -27,5 +32,5 @@ if __name__ == '__main__':
     print(111)
   
   kTimeTask = KTimeTask()
-  kTimeTask.day('11:06:01', aaa)
-  kTimeTask.run()
+  kTimeTask.day('10:09:01', aaa)
+  kTimeTask.start()
