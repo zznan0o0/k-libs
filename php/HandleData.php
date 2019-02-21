@@ -19,7 +19,7 @@ class HandleData{
     $dict2 = $this->convertDicts($d2, $k2);
     
     foreach ($dict1 as $key => $v) {
-      $arr[] = $fn($v, $this->getVal($dict2, $key, null), $key);
+      $arr[] = $fn($v, $this->getVal($dict2, $key, []), $key);
     }
 
     return $arr;
@@ -33,7 +33,7 @@ class HandleData{
     
     foreach ($d1 as $key => $v) {
       $key = $this->convertKey($v, $k1);
-      $arr[] = $fn($v, $this->getVal($dict2, $key, null), $key);
+      $arr[] = $fn($v, $this->getVal($dict2, $key, []), $key);
     }
 
     return $arr;
@@ -45,7 +45,7 @@ class HandleData{
     
     foreach ($d1 as $key => $v) {
       $key = $this->convertKey($v, $k1);
-      $arr[] = $fn($v, $this->getVal($dict2, $key, null), $key);
+      $arr[] = $fn($v, $this->getVal($dict2, $key, []), $key);
     }
 
     return $arr;
@@ -102,7 +102,8 @@ class HandleData{
     return $initval;
   }
 
-  public function parseJson(){
+
+  public function parseJson($obj){
     return json_decode(json_encode($obj), true);
   }
 }
