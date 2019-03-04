@@ -71,18 +71,18 @@ KAjax.prototype = {
     return arr.join('&');
   },
 
-  recParams: function(d, dic, key){
-    for (k in d){
-      key += '['+k+']';
-      if(typeof(d[k]) == 'object'){
-        this.recParams(d[k], dic, key);
+  recParams(d, dic, key) {
+    for (let k in d) {
+      var kk = key + '[' + k + ']';
+      if (typeof (d[k]) == 'object') {
+        this.recParams(d[k], dic, kk);
       }
-      else{
-        dic[key] = d[k];
+      else {
+        dic[kk] = d[k];
       }
     }
     return dic;
-  },
+  }
 
 };
 
