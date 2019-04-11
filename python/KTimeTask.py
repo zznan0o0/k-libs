@@ -4,6 +4,20 @@ import threading
 class KTimeTask:
   def __init__(self):
     self.__dayfn = {}
+    self.__timefn = []
+  
+  def time(self, time_format, time_str, fn):
+    self.__timefn.append({
+      'time_format': time_format,
+      'time_str': time_str,
+      'fn': fn
+    })
+  
+  def runTime(self, dtime):
+    for v in self.__timefn:
+      dtime_str = dtime.strftime(v['time_format'])
+      if dtime_str == v['time_str']:
+        v['fn']()
   
   def day(self, time_str, fn):
     if time_str not in self.__dayfn.keys():
@@ -19,6 +33,7 @@ class KTimeTask:
       
   def run(self, dtime):
     self.runDay(dtime)
+    self.runTime(dtime)
   
   def start(self):
     while True:
@@ -32,5 +47,9 @@ if __name__ == '__main__':
     print(111)
   
   kTimeTask = KTimeTask()
-  kTimeTask.day('10:09:01', aaa)
+  kTimeTask.time('%S', '05', aaa)
   kTimeTask.start()
+
+
+  # kTimeTask.day('10:09:01', aaa)
+  # kTimeTask.start()

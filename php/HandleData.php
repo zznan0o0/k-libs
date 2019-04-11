@@ -3,6 +3,14 @@
 namespace App\Libs;
 
 class HandleData{
+  public function arrayPage($d, $page, $limit){
+    $count = count($d);
+    $cur_idx = ($page - 1) * $limit;
+
+    $new_d = array_slice($d, $cur_idx, $limit);
+    return ['count' => $count, 'data' => $new_d];
+  }
+  
   public function distributePropsArray($d1, $d2, $k1, $k2, $p){
     return $this->mapDictDict($d1, $d2, $k1, $k2, function($v1, $v2) use ($p){
       foreach ($p as $key => $v) {
