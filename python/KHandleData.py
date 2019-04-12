@@ -8,6 +8,23 @@ class KHandleData:
 
     return self.mapDictDict(d1, d2, k1, k2, fn)
 
+  def mapDicstDicts(self, d1, d2, k1, k2, fn):
+    dict1 = self.convertDicts(d1, k1)
+    dict2 = self.convertDicts(d2, k2)
+    arr = []
+    for key, v in dict1.items():
+      arr.append(fn(v, self.getVal(dict2, key, []), key))
+    
+    return arr
+
+  def mapDictDicts(self, d1, d2, k1, k2, fn):
+    dict2 = self.convertDicts(d2, k2)
+    arr = []
+    for v in d1:
+      key = self.convertKey(v, k1)
+      arr.append(fn(v, self.getVal(dict2, key, []), key))
+    
+    return arr
 
   def mapDictDict(self, d1, d2, k1, k2, fn):
     dict2 = self.convertDict(d2, k2)
