@@ -29,7 +29,7 @@ KTpl.prototype = {
       var s_arr = s.split(this.__LeftTag);
       s_arr[0] = s_arr[0].replace(/\'/g, "\\'");
       str += "s += '" + s_arr[0] + "';";
-      if(s_arr.length <= 1) return str;
+      if(s_arr.length <= 1) return s;
       for(var i = 1; i < s_arr.length; i++){
         var s_r_arr = s_arr[i].split(this.__RightTag);
         if(s_r_arr[0][0] == this.__EqualTag){
