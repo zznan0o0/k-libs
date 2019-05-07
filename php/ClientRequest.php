@@ -49,19 +49,22 @@ class ClientRequest extends FormatData{
   }
 
   public function postJson($url, $submit_data){
-    // $submit_data = http_build_query($submit_data);    
     $submit_data = json_encode($submit_data);
-    $options = [
-      'http' => [
-        'method' => 'POST',    
-        'header' => 'Content-Type:application/json; charset=utf-8',    
-        'content' => $submit_data,    
-        'timeout' => 15 * 60 
-      ]    
-    ];
-    $context = stream_context_create($options);    
-    $result = file_get_contents($url, false, $context);             
-    return $result;   
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $submit_data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+      'Content-Length: ' . strlen($submit_data)
+    ));
+
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+      return curl_error($ch);
+    }
+    curl_close($ch);
+    return $result;
   }
 
 

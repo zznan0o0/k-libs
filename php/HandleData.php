@@ -59,7 +59,7 @@ class HandleData{
     return $arr;
   }
 
-  public function mapDitcs($d, $k, $fn){
+  public function mapDicts($d, $k, $fn){
     $arr = [];
     $dicts = $this->convertDicts($d, $k);
     foreach ($dicts as $k => $v) {
