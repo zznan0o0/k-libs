@@ -10,6 +10,96 @@ class HandleData{
     $new_d = array_slice($d, $cur_idx, $limit);
     return ['count' => $count, 'data' => $new_d];
   }
+
+  public function complementaryData($d1, $d2, $k1, $k2, $cd1, $cd2)
+  {
+    $dk1 = [];
+    $dk2 = [];
+    foreach ($cd2 as $v) {
+      $dk1[$v[1]] = $v[2];
+    }
+
+    foreach ($cd1 as $v) {
+      $dk2[$v[1]] = $v[2];
+    }
+
+    $d1d = $this->convertDicts($d1, $k1);
+    $d2d = $this->convertDicts($d2, $k2);
+
+    $dd = [];
+
+    foreach ($d1d as $k => $v) {
+      if (array_key_exists($k, $d2d)) {
+        $arr = [];
+
+        $max_length = max([count($v), count($d2d[$k])]);
+        $d1d_v = $v;
+        $d2d_v = $d2d[$k];
+
+        for ($i = 0; $i < $max_length; $i++) {
+          if (!array_key_exists($i, $d1d_v)) {
+            $d1di_v = $dk1;
+            foreach ($k1 as $k1_v) {
+              $d1di_v[$k1_v] = $d1d_v[0][$k1_v];
+            }
+          }
+          else{
+            $d1di_v = $d1d_v[$i];
+          }
+          $d2di_v = $this->getVal($d2d_v, $i, $dk2);
+
+          foreach ($cd1 as $cd1_v) {
+            $d1di_v[$cd1_v[0]] = $this->getVal($d2di_v, $cd1_v[1], $cd1_v[2]);
+          }
+          $arr[] = $d1di_v;
+        }
+
+        $dd[$k] = $arr;
+      } else {
+        $arr = [];
+
+        foreach ($v as $vv) {
+          foreach ($cd1 as $cd1_v) {
+            $vv[$cd1_v[0]] = $cd1_v[2];
+          }
+          $arr[] = $vv;
+        }
+
+        $dd[$k] = $arr;
+      }
+    }
+
+    $k1_length = count($k1);
+
+    foreach ($d2d as $k => $v) {
+      if (!array_key_exists($k, $dd)) {
+        $arr = [];
+        $key = [];
+        for($i = 0; $i < $k1_length; $i++){
+          $key[$k1[$i]] = $v[0][$k2[$i]];
+        }
+
+        foreach ($v as $vv) {
+          foreach ($cd2 as $cd2_v) {
+            $vv[$cd2_v[0]] = $cd2_v[2];
+            $vv = array_merge($vv, $key);
+          }
+          $arr[] = $vv;
+        }
+
+        $dd[$k] = $arr;
+      }
+    }
+
+    $arr = [];
+    foreach ($dd as $v) {
+      foreach ($v as $vv) {
+        $arr[] = $vv;
+      }
+    }
+
+    return $arr;
+  }
   
   public function distributePropsArray($d1, $d2, $k1, $k2, $p){
     return $this->mapDictDict($d1, $d2, $k1, $k2, function($v1, $v2) use ($p){

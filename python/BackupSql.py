@@ -28,7 +28,7 @@ class BackupSql:
 
       ssh = self.createSSH(v['ssh'])
       stdin, stdout, stderr = ssh.exec_command(
-        'cd %s; mkdir -p %s; cd %s; mysqldump -u%s -p%s --databases %s > %s.sql' % (v['bak']['online_path'], y_m, y_m, v['database']['user'], v['database']['password'], ' '.join(v['database']['databases']), day)
+        'cd %s; mkdir -p %s; cd %s; mysqldump -u%s -p%s --databases %s > %s.sql; xz -z %s.sql; rm %s.sql;' % (v['bak']['online_path'], y_m, y_m, v['database']['user'], v['database']['password'], ' '.join(v['database']['databases']), day, day, day)
       )
       err = stderr.readlines()
 
@@ -96,4 +96,3 @@ if __name__ == '__main__':
 
   backupSql = BackupSql(config)
   backupSql.check()
-

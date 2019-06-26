@@ -43,13 +43,22 @@ KDate.prototype = {
     }
   },
 
-  getTheLastMonth: function(month){
-    var cur_date = new Date();
-    return  the_last_month = new Date(cur_date.getFullYear(), cur_date.getMonth() - month);
+  getTheLastMonth: function(month, date){
+    var date = date || new Date();
+    return   Date(date.getFullYear(), date.getMonth() - month);
   },
 
-  getTheLastDay: function(day){
-    var cur_date = new Date();
-    return  the_last_month = new Date(cur_date.getFullYear(), cur_date.getMonth(), cur_date.getDate() -  day);
+  getTheLastDay: function(day, date){
+    var date = date || new Date();
+    return  new Date(date.getFullYear(), date.getMonth(), date.getDate() -  day);
   },
+
+
+  getWeekRange: function(date){
+    date = date || new Date();
+
+    var pre_date  = this.getTheLastDay(7, date);
+
+    return this.format(pre_date, '%Y-%m-%d') + ' - ' + this.format(date, '%Y-%m-%d');
+  }
 }
