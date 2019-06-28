@@ -11,7 +11,7 @@ class HandleData{
     return ['count' => $count, 'data' => $new_d];
   }
 
-  public function complementaryData($d1, $d2, $k1, $k2, $cd1, $cd2)
+  public function complementaryData($d1, $d2, $k1, $cd1, $cd2)
   {
     $dk1 = [];
     $dk2 = [];
@@ -24,7 +24,7 @@ class HandleData{
     }
 
     $d1d = $this->convertDicts($d1, $k1);
-    $d2d = $this->convertDicts($d2, $k2);
+    $d2d = $this->convertDicts($d2, $k1);
 
     $dd = [];
 
