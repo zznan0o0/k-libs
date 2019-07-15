@@ -15,6 +15,9 @@ KDate.prototype = {
       '%m': this.preFixNum(+date.getMonth() + 1, 2),
       '%d': this.preFixNum(+date.getDate(), 2),
       '%w': weekday[date.getDay()],
+      '%H': this.preFixNum(+date.getHours(), 2),
+      '%i': this.preFixNum(+date.getMinutes(), 2),
+      '%s': this.preFixNum(+date.getSeconds(), 2),
     }
 
 
