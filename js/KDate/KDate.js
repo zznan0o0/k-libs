@@ -46,9 +46,19 @@ KDate.prototype = {
     }
   },
 
+  calMonth: function(month, date){
+    var date = date || new Date();
+    return  new Date(date.getFullYear(), date.getMonth() + month);
+  },
+
+  calDay: function(day, date){
+    var date = date || new Date();
+    return  new Date(date.getFullYear(), date.getMonth(), date.getDate() +  day);
+  },
+
   getTheLastMonth: function(month, date){
     var date = date || new Date();
-    return   Date(date.getFullYear(), date.getMonth() - month);
+    return  new Date(date.getFullYear(), date.getMonth() - month);
   },
 
   getTheLastDay: function(day, date){

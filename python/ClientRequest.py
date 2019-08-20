@@ -30,6 +30,16 @@ class ClientRequest:
     submit_data = self.mergeToken(submit_data)
     return self.post(url, submit_data)
 
+  def postXML(self, url, submit_data=''):
+    
+    request = urllib.request.Request(url)
+    request.add_header("Content-Type","application/xml;charset=utf-8")
+    submit_data = submit_data.replace('\r', '').replace('\n', '')
+    res = urllib.request.urlopen(request, submit_data.encode('utf-8'))
+    res = res.read().decode('utf-8')
+
+    return res
+
 if __name__ == '__main__':
   clientRequest =  ClientRequest()
   print(clientRequest.postGo('v1/Dingding/SendText', {'touser': '091716111036380986', 'text': 'aaa'}))

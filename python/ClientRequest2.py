@@ -18,7 +18,7 @@ class ClientRequest:
   def addGlassPropId(self, d, k=False):
     k = k if k else ['brand','category','level','glass_film']
     url = self.url('v1/GlassOrders/GetBrandSku')
-    submit_data = {};
+    submit_data = {}
     props = json.loads(self.post(url, submit_data))
     # brands_id moxi moxi_id
     levels = self.covertDic(['level', 'level_id'], props['data']['levels'])
