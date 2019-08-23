@@ -5,51 +5,55 @@ import copy
 
 
 class OpeartingDB:
-  def __init__(self):
-    db_config_file = open('db_config.json')
+  def __init__(self, config_path):
+    db_config_file = open(config_path)
     db_config = json.load(db_config_file)
     db_config_file.close()
     self._config = db_config
-    self._connect_array = []
-    self._cursor_array = []
+    self.CONNECTPOOL = {}
+    self.CURSORPOOL = {}
 
   def connection(self, database):
     db_config = self._config[database]
     connect = pymysql.connect(database=db_config['database'], user=db_config['user'], password=db_config['password'], host=db_config['host'], port=db_config['port'], cursorclass=pymysql.cursors.DictCursor,charset="utf8")
-
-    self._connect_array.append(connect)
-
     cursor = connect.cursor()
-    self._cursor_array.append(cursor)
+
+    self.CONNECTPOOL[database] = connect
+    self.CURSORPOOL[database] = cursor
 
     return connect, cursor
 
   def commitAll(self):
-    for v in self._connect_array:
+    for k, v in self.CONNECTPOOL.items():
       v.commit()
 
   def closeAll(self):
-    for item in self._connect_array:
-      item.commit()
+    for k, v in self.CURSORPOOL.items():
+      v.close()
 
-    for item in self._cursor_array:
-      item.close()
+    for k, v in self.CONNECTPOOL.items():
+      v.close()
 
-    for item in self._connect_array:
-      item.close()
+    self.CURSORPOOL = {}
+    self.CONNECTPOOL = {}
 
-    self._cursor_array = []
-    self._connect_array = []
 
-  def close(self, connect, cursor):
-    connect.commit()
-    cursor.close()
-    connect.close()
-    cur_index = self._cursor_array.index(cursor)
-    conn_index = self._connect_array.index(connect)
-    del self._cursor_array[cur_index]
-    del self._connect_array[conn_index]
+  def close(self, database):
+    self.CURSORPOOL[database].close()
+    self.CONNECTPOOL[database].close()
+    del self.CURSORPOOL[database]
+    del self.CONNECTPOOL[database]
+  
+  def insert (self, data, database, table):
+    if(len(data) < 1): return 0
 
+    keys = data[0].keys()
+    s = ['%s' for i in range(len(keys))]
+    sql = "insert into %s (%s) values (%s)" % (table, ','.join(keys), ','.join(s))
+    tuple_list = self.covertTuple(data, keys)
+    self.CURSORPOOL[database].executemany(sql, tuple_list)
+  
+   
 
   def addQuotes(self, x):
     return "'%s'" % x
@@ -57,7 +61,7 @@ class OpeartingDB:
   def getWhereInString(self, array):
     return ','.join(list(map(self.addQuotes, array)))
 
-  def covertTuple(self, k, d):
+  def covertTuple(self,  d, k):
     tuple_list = []
     for v in d:
       tuple_tmp = []
