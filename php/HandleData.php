@@ -11,95 +11,33 @@ class HandleData{
     return ['count' => $count, 'data' => $new_d];
   }
 
-  public function complementaryData($d1, $d2, $k1, $cd1, $cd2)
-  {
-    $dk1 = [];
-    $dk2 = [];
-    foreach ($cd2 as $v) {
-      $dk1[$v[1]] = $v[2];
-    }
+  public function distributePropsArrayTwoWay($d1, $d2, $k1, $k2, $p1, $p2){
+    return $this->mapTwoWayDictDict($d1, $d2, $k1, $k2, function($v1, $v2) use ($k1, $k2, $p1, $p2){
+      $item = [];
 
-    foreach ($cd1 as $v) {
-      $dk2[$v[1]] = $v[2];
-    }
-
-    $d1d = $this->convertDicts($d1, $k1);
-    $d2d = $this->convertDicts($d2, $k1);
-
-    $dd = [];
-
-    foreach ($d1d as $k => $v) {
-      if (array_key_exists($k, $d2d)) {
-        $arr = [];
-
-        $max_length = max([count($v), count($d2d[$k])]);
-        $d1d_v = $v;
-        $d2d_v = $d2d[$k];
-
-        for ($i = 0; $i < $max_length; $i++) {
-          if (!array_key_exists($i, $d1d_v)) {
-            $d1di_v = $dk1;
-            foreach ($k1 as $k1_v) {
-              $d1di_v[$k1_v] = $d1d_v[0][$k1_v];
-            }
-          }
-          else{
-            $d1di_v = $d1d_v[$i];
-          }
-          $d2di_v = $this->getVal($d2d_v, $i, $dk2);
-
-          foreach ($cd1 as $cd1_v) {
-            $d1di_v[$cd1_v[0]] = $this->getVal($d2di_v, $cd1_v[1], $cd1_v[2]);
-          }
-          $arr[] = $d1di_v;
+      foreach ($k1 as $key => $v) {
+        if(array_key_exists($v, $v1)){
+          $item[$v] = $v1[$v];
         }
-
-        $dd[$k] = $arr;
-      } else {
-        $arr = [];
-
-        foreach ($v as $vv) {
-          foreach ($cd1 as $cd1_v) {
-            $vv[$cd1_v[0]] = $cd1_v[2];
-          }
-          $arr[] = $vv;
-        }
-
-        $dd[$k] = $arr;
       }
-    }
 
-    $k1_length = count($k1);
-
-    foreach ($d2d as $k => $v) {
-      if (!array_key_exists($k, $dd)) {
-        $arr = [];
-        $key = [];
-        for($i = 0; $i < $k1_length; $i++){
-          $key[$k1[$i]] = $v[0][$k2[$i]];
+      foreach ($k2 as $key => $v) {
+        if(array_key_exists($v, $v2)){
+          $item[$v] = $v2[$v];
         }
-
-        foreach ($v as $vv) {
-          foreach ($cd2 as $cd2_v) {
-            $vv[$cd2_v[0]] = $cd2_v[2];
-            $vv = array_merge($vv, $key);
-          }
-          $arr[] = $vv;
-        }
-
-        $dd[$k] = $arr;
       }
-    }
 
-    $arr = [];
-    foreach ($dd as $v) {
-      foreach ($v as $vv) {
-        $arr[] = $vv;
+      foreach ($p1 as $key => $v) {
+        $item[$v[0]] = $this->getVal($v1, $v[1], $v[2]);
       }
-    }
+      foreach ($p2 as $key => $v) {
+        $item[$v[0]] = $this->getVal($v2, $v[1], $v[2]);
+      }
 
-    return $arr;
+      return $item;
+    });
   }
+
   
   public function distributePropsArray($d1, $d2, $k1, $k2, $p){
     return $this->mapDictDict($d1, $d2, $k1, $k2, function($v1, $v2) use ($p){
@@ -110,6 +48,23 @@ class HandleData{
       return $v1;
     });
   }
+
+
+  public function mapTwoWayDictDict($d1, $d2, $k1, $k2, $fn){
+    $arr = [];
+    $dict1 = $this->convertDict($d1, $k1);
+    $dict2 = $this->convertDict($d2, $k2);
+
+    $keys = array_keys($dict1);
+    $keys = array_merge($keys, array_keys($dict2));
+    $keys = array_flip(array_flip($keys));
+
+    foreach ($keys as $keys_v) {
+      $arr[] = $fn($this->getVal($dict1, $keys_v, []), $this->getVal($dict2, $keys_v, []), $keys);
+    }
+    return $arr;
+  }
+
 
   public function mapDictsDicts($d1, $d2, $k1, $k2, $fn){
     $arr = [];
