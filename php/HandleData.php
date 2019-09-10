@@ -12,7 +12,7 @@ class HandleData{
   }
 
   public function distributePropsArrayTwoWay($d1, $d2, $k1, $k2, $p1, $p2){
-    return $this->mapTwoWayDictDict($d1, $d2, $k1, $k2, function($v1, $v2) use ($k1, $k2, $p1, $p2){
+    return $this->mapDictDictTwoWay($d1, $d2, $k1, $k2, function($v1, $v2) use ($k1, $k2, $p1, $p2){
       $item = [];
 
       foreach ($k1 as $key => $v) {
@@ -50,7 +50,7 @@ class HandleData{
   }
 
 
-  public function mapTwoWayDictDict($d1, $d2, $k1, $k2, $fn){
+  public function mapDictDictTwoWay($d1, $d2, $k1, $k2, $fn){
     $arr = [];
     $dict1 = $this->convertDict($d1, $k1);
     $dict2 = $this->convertDict($d2, $k2);

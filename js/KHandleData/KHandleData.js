@@ -43,13 +43,26 @@ KHandleData.prototype = {
     return this.convertArray(d1);
   },
 
+  mapDictsDictsTwoWay: function(d1, d2, k1, k2, fn){
+    var d1 = this.convertDicts(d1, k1);
+    var d2 = this.convertDicts(d2, k2);
+    var ks = this.getKey(d1);
+    ks = ks.concat(this.getKey(d2))
+    ks = this.unique(ks);
+    var arr = [];
+    ks.forEach(function(k, i){
+      arr.push(fn.call(this, this.getVal(d1, k, []), this.getVal(d2, k, []), k));
+    });
+    return arr;
+  },
+
   mapDictsDicts: function(d1, d2, k1, k2, fn){
-    var d1 = this.convertDicts(d1, ks1);
-    var d2 = this.convertDicts(d2, ks2);
+    var d1 = this.convertDicts(d1, k1);
+    var d2 = this.convertDicts(d2, k2);
     var arr = [];
 
     this.eachDict(d1, function(v, k){
-      arr.push(fn.call(this, v, this.getVal(d2, k, null), k));
+      arr.push(fn.call(this, v, this.getVal(d2, k, []), k));
     });
     return arr;
   },
@@ -60,7 +73,7 @@ KHandleData.prototype = {
     var arr = [];
 
     this.eachDict(d1, function(v, k){
-      arr.push(fn.call(this, v, this.getVal(d2, k, null), k));
+      arr.push(fn.call(this, v, this.getVal(d2, k, []), k));
     });
     return arr;
   },
@@ -71,14 +84,14 @@ KHandleData.prototype = {
     var arr = [];
 
     this.eachDict(d1, function(v, k){
-      arr.push(fn.call(this, v, this.getVal(d2, k, null), k));
+      arr.push(fn.call(this, v, this.getVal(d2, k, {}), k));
     });
     return arr;
   },
 
   eachDictsDicts: function(d1, d2, k1, k2, fn){
-    var d1 = this.convertDicts(d1, ks1);
-    var d2 = this.convertDicts(d2, ks2);
+    var d1 = this.convertDicts(d1, k1);
+    var d2 = this.convertDicts(d2, k2);
 
     this.eachDict(d1, function(v, k){
       fn.call(this, v, this.getVal(d2, k, null), k);
@@ -137,6 +150,14 @@ KHandleData.prototype = {
   //   });
   //   return arr;
   // },
+
+  unique: function(d){
+    var dict = {};
+    d.forEach(function(v, i){
+      dict[v] = i;
+    });
+    return this.getKey(dict);
+  },
 
   getKey: function(d){
     var ks = [];
