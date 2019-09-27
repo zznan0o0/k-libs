@@ -3,6 +3,11 @@ import pymysql
 import json
 import copy
 
+try: 
+  import psycopg2 
+  import psycopg2.extras
+except ImportError: pass
+
 
 class OpeartingDB:
   def __init__(self, config_path):
@@ -15,11 +20,18 @@ class OpeartingDB:
 
   def connection(self, database):
     db_config = self._config[database]
-    connect = pymysql.connect(database=db_config['database'], user=db_config['user'], password=db_config['password'], host=db_config['host'], port=db_config['port'], cursorclass=pymysql.cursors.DictCursor,charset="utf8")
-    cursor = connect.cursor()
-
+    engine = db_config['engine'] if 'engine' in db_config.keys() else 'mysql'
+    if engine == 'mysql':
+      connect = pymysql.connect(database=db_config['database'], user=db_config['user'], password=db_config['password'], host=db_config['host'], port=db_config['port'], cursorclass=pymysql.cursors.DictCursor,charset="utf8")
+      cursor = connect.cursor()
+      
+    elif engine == 'psql':
+      connect = psycopg2.connect(database=db_config['database'], user=db_config['user'], password=db_config['password'], host=db_config['host'], port=db_config['port'])
+      cursor = connect.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    
     self.CONNECTPOOL[database] = connect
     self.CURSORPOOL[database] = cursor
+
 
     return connect, cursor
 

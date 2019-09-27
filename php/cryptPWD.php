@@ -2,7 +2,7 @@
 
 namespace App\Libs;
 
-class AtjuboPWD {
+class CryptPWD {
   public function byteMD5($str){
     $md5hex = md5($str);
     $len=strlen($md5hex)/2;

@@ -4,9 +4,9 @@ import json
 
 class ClientRequest:
   def __init__(self):
-    self.__ApiUserId = '111'
-    self.__token = '111'
-    self.__host = 'http://0.0.0.0:9091/'
+    self.__ApiUserId = 'U548163'
+    self.__token = 'yYkf3y1P7CeRV3i9C89cMXgjpq3aN0Qt'
+    self.__host = 'http://52.83.191.213:8081/'
 
 
   def url(self, url):
@@ -22,6 +22,14 @@ class ClientRequest:
     submit_data = submit_data.encode('utf-8')
     request = urllib.request.Request(url)
     request.add_header("Content-Type","application/x-www-form-urlencoded;charset=utf-8")
+    res = urllib.request.urlopen(request, submit_data)
+    return res.read().decode('utf-8')
+  
+  def postJson(self, url, submit_data):
+    submit_data = json.dumps(submit_data)
+    submit_data = bytes(submit_data, 'utf8')
+    request = urllib.request.Request(url)
+    request.add_header("Content-Type","application/json;charset=utf-8")
     res = urllib.request.urlopen(request, submit_data)
     return res.read().decode('utf-8')
   

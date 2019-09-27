@@ -7,7 +7,8 @@ KDate.prototype = {
     return (Array(length).join('0') + num).slice(-length);
   },
 
-  format: function(date, str){
+  format: function(str, date){
+    var date = date || new Date();
     var weekday=["周日","周一","周二","周三","周四","周五","周六"];
 
     var date_json = {
@@ -72,6 +73,6 @@ KDate.prototype = {
 
     var pre_date  = this.getTheLastDay(7, date);
 
-    return this.format(pre_date, '%Y-%m-%d') + ' - ' + this.format(date, '%Y-%m-%d');
+    return this.format('%Y-%m-%d', pre_date) + ' - ' + this.format('%Y-%m-%d', date);
   }
 }
