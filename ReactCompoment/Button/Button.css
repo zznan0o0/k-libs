@@ -1,0 +1,19 @@
+.btn{
+  display: inline-block;
+  padding: 0px 20px 0px 20px; margin:0;border:0;
+  line-height: 32px;
+  text-align: center;
+  font-size: 14px;
+  background: #4877c9;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.btn-radius{
+  border-radius: 100px;
+}
+
+.btn.danger{
+  background: #ff6c60;
+}

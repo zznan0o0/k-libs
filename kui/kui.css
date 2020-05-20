@@ -1295,22 +1295,22 @@ html.k-mobile .k-mobile-bg>.k-container.k-bespread{
 
 @-webkit-keyframes k-fadeout {
   0% {
-    opacity: 1
+    opacity: 1;
   }
 
   100% {
-    opacity: 0
+    opacity: 0;
     display: none !important;
   }
 }
 
 @keyframes k-fadeout {
   0% {
-    opacity: 1
+    opacity: 1;
   }
 
   100% {
-    opacity: 0
+    opacity: 0;
     display: none !important;
   }
 }

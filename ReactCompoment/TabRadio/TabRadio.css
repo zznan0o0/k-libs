@@ -1,0 +1,16 @@
+.tabradio-container{
+  display: flex;
+}
+.tabradio-container>div{
+  display: inline-block;
+  padding: 17px 20px 18px 20px;
+  cursor: pointer;
+  color: #333333;
+  font-size: 16px;
+}
+
+.tabradio-container>div.on{
+  color: #7fb2ff;
+  border-bottom: 1px solid #7fb2ff;
+  padding-bottom: 17px;
+}

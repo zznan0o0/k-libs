@@ -1,0 +1,39 @@
+.menu{
+  width: 100%; height: 100%;
+  background: #2a3542;
+  list-style: none;
+  padding: 15px 10px; margin: 0; border: 0;
+}
+
+.menu>li{
+  padding: 15px 10px; border: 0; margin: 20px 0;
+  cursor: pointer;
+}
+.menu>li.on{
+  background: #35404d;
+}
+
+.title{
+  color: #fff; font-size: 14px;
+  display: flex;
+  align-items:center;
+}
+
+.span{
+  margin-left: 10px;
+}
+
+.content{
+  flex: 1;
+}
+
+.menu-item{
+  display: block;
+  padding: 15px 0px 15px 24px; border: 0; 
+  cursor: pointer;
+  color: #fff; font-size: 14px;
+}
+
+.menu-item.on{
+  color: #ff6c60;
+}

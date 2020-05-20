@@ -1,0 +1,13 @@
+.container{
+  display: flex;
+  align-items:center;
+  margin: 5px 0;
+}
+
+.input-container{
+  flex: 1;
+}
+.label{
+  color: #333;
+  padding-right: 5px;
+}
