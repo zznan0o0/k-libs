@@ -65,7 +65,28 @@ class OpeartingDB:
     tuple_list = self.covertTuple(data, keys)
     self.CURSORPOOL[database].executemany(sql, tuple_list)
   
-   
+  
+  def insertBigData(self, data, database, table):
+    if(len(data) < 1): return 0
+
+    keys = data[0].keys()
+    s = ['%s' for i in range(len(keys))]
+    sql = "insert into %s (%s) values (%s)" % (table, ','.join(keys), ','.join(s))
+
+    per_count = 10
+    sur_count = len(data) % per_count
+    count = math.ceil(len(data) / per_count)
+
+    tuple_list = self.covertTuple(data, keys)
+
+    for ci in range(count):
+      star_num = ci * per_count
+      end_num = per_count + star_num
+      if pi == count - 1:
+        end_num = sur_count + star_num
+
+      self.CURSORPOOL[database].executemany(sql, tuple_list[star_num:end_num])
+
 
   def addQuotes(self, x):
     return "'%s'" % x
