@@ -3,6 +3,47 @@
 namespace App\Libs;
 
 class HandleData{
+  /**
+   * 二维数组匹配后相同key值相加
+   * @param Array $d 二维原数组
+   * @param Array $eks 匹配key值
+   * @param Array $aks 相加key值
+   * @return Array 相加后的二维数据
+   * --- eg: start ---
+   * $arr = [
+   *   ['a' => 1, 'b' => 2],
+   *   ['a' => 1, 'b' => 2],
+   *   ['a' => 2, 'b' => 2],
+   * ];
+   * print_r($HandleData->addionPropsArray($arr, ['a'], ['b']));
+   * 
+   * Array
+   * (
+   *     [0] => Array
+   *         (
+   *             [a] => 1
+   *             [b] => 4
+   *         )
+   *     [1] => Array
+   *         (
+   *             [a] => 2
+   *             [b] => 2
+   *         )
+   * )
+   * --- eg: end   ---
+  */
+  public function addionPropsArray($d, $eks, $aks){
+    return $this->mapDicts($d, $eks, function($arr) use ($aks){
+      $arr0 = $arr[0];
+      foreach($aks as $ak){
+        $akv_arr = array_column($arr, $ak);
+        $arr0[$ak] = array_sum($akv_arr);
+      }
+
+      return $arr0;
+    });
+  }
+
   public function arrayPage($d, $page, $limit){
     $count = count($d);
     $cur_idx = ($page - 1) * $limit;
