@@ -5,13 +5,26 @@ namespace App\Libs;
 use App\Libs\FormatData;
 class ModelAssist extends FormatData{
 
+  /**
+   * model分页
+   */
 
-  public function isWhereState($model, $wehre_arr){
+  static public function page($model, $limit, $page){
+    $count = $model->count();
+    $data = $model->offset($page-1)->limit($limit)->get();
+
+    return [
+        'Count' => $count,
+        'Data' => $data,
+    ];
+  }
+
+  static public function isWhereState($model, $wehre_arr){
     $wehre_arr[] = ['state', 'invalid', '!='];
     return $this->isWhere($model, $wehre_arr);
   }
 
-  public function isWhere($model, $wehre_arr){
+  static public function isWhere($model, $wehre_arr){
     $new_model = $model;
 
     if(gettype($wehre_arr) == 'string'){
