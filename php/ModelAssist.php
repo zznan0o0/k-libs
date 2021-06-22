@@ -9,15 +9,23 @@ class ModelAssist extends FormatData{
    * model分页
    */
 
-  static public function page($model, $limit, $page){
+  static public function page($model, $limit, $page, $fn=null){
     $count = $model->count();
-    $data = $model->offset($page-1)->limit($limit)->get();
+    if($limit >= 0){
+        $data = $model->offset($page-1)->limit($limit)->get()->toArray();
+    }
+    else{
+        $data = $model->get()->toArray();
+    }
+    if($fn){
+        return $fn($data, $count);
+    }
 
     return [
         'Count' => $count,
         'Data' => $data,
     ];
-  }
+}
 
   static public function isWhereState($model, $wehre_arr){
     $wehre_arr[] = ['state', 'invalid', '!='];
