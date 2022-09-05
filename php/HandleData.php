@@ -145,8 +145,24 @@ class HandleData
         });
     }
 
+    // 俩边都会循环到那类似inner join
+    public function mapDictDictsInnerJoin($d1, $d2, $k1, $k2, $fn)
+    {
+        $arr = [];
+        $dict1 = $this->convertDict($d1, $k1);
+        $dict2 = $this->convertDicts($d2, $k2);
 
-    public function mapDictDictTwoWay($d1, $d2, $k1, $k2, $fn)
+        $keys = array_keys($dict1);
+        $keys = array_merge($keys, array_keys($dict2));
+        $keys = array_flip(array_flip($keys));
+
+        foreach ($keys as $keys_v) {
+            $arr[] = $fn($this->getVal($dict1, $keys_v, []), $this->getVal($dict2, $keys_v, []), $keys);
+        }
+        return $arr;
+    }
+
+    public function mapDictDictGreedInnerJoin($d1, $d2, $k1, $k2, $fn)
     {
         $arr = [];
         $dict1 = $this->convertDict($d1, $k1);

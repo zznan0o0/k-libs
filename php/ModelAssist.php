@@ -11,7 +11,7 @@ class ModelAssist extends FormatData{
 
   static public function page($model, $limit, $page, $fn=null){
     $count = $model->count();
-    if($limit >= 0){
+    if($limit > 0){
         $data = $model->offset($page-1)->limit($limit)->get()->toArray();
     }
     else{
